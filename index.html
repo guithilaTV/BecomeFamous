@@ -79,6 +79,50 @@
         font-weight: bold;
         font-size: 1.2em;
       }
+      .final-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        background-color: #ffffff;
+        color: #2575fc;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .final-btn:hover {
+        background-color: #6a11cb;
+        color: #ffffff;
+      }
+      #popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .popup-content {
+        background: #fff;
+        color: #000;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        max-width: 400px;
+      }
+      .close-popup {
+        margin-top: 10px;
+        background: #2575fc;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -92,9 +136,21 @@
       <div class="player-list" id="playerList">
         <!-- Players will be added here dynamically -->
       </div>
+      <button class="final-btn" onclick="finishGame()">Game Finished</button>
     </div>
+
+    <!-- Popup for final ranking -->
+    <div id="popup">
+      <div class="popup-content" id="popupContent">
+        <!-- Ranking will be displayed here -->
+      </div>
+      <button class="close-popup" onclick="closePopup()">Close</button>
+    </div>
+
     <script>
       const playerList = document.getElementById("playerList");
+      const popup = document.getElementById("popup");
+      const popupContent = document.getElementById("popupContent");
 
       function addPlayer() {
         const playerName = document.getElementById("playerName").value;
@@ -115,8 +171,10 @@
           <button onclick="updateScore(this, -10)">-10</button>
           <button onclick="updateScore(this, -30)">-30</button>
           <button onclick="updateScore(this, -50)">-50</button>
+          <button onclick="resetScore(this)">Reset</button>
         </div>
         <span class="score">100</span>
+        <button onclick="removePlayer(this)">🗑</button>
       `;
 
         playerList.appendChild(playerDiv);
@@ -128,12 +186,46 @@
         const scoreSpan = playerDiv.querySelector(".score");
         let currentScore = parseInt(scoreSpan.textContent, 10);
         currentScore += points;
+        if (currentScore < 0) currentScore = 0;
         scoreSpan.textContent = currentScore;
       }
+
+      function resetScore(button) {
+        const playerDiv = button.parentElement.parentElement;
+        const scoreSpan = playerDiv.querySelector(".score");
+        scoreSpan.textContent = 100;
+      }
+
+      function removePlayer(button) {
+        const playerDiv = button.parentElement;
+        playerDiv.remove();
+      }
+
+      function finishGame() {
+        const players = Array.from(document.querySelectorAll(".player"));
+        const rankings = players
+          .map((player) => {
+            const name = player.querySelector("span").textContent;
+            const score = parseInt(
+              player.querySelector(".score").textContent,
+              10
+            );
+            return { name, score };
+          })
+          .sort((a, b) => b.score - a.score);
+
+        popupContent.innerHTML = "<h2>Game Rankings</h2>";
+        rankings.forEach((player, index) => {
+          popupContent.innerHTML += `<p>${index + 1}. ${player.name} - ${
+            player.score
+          } visitors</p>`;
+        });
+        popup.style.display = "flex";
+      }
+
+      function closePopup() {
+        popup.style.display = "none";
+      }
     </script>
-    // ne pas laisser les joueurs en dessous de 0 visiteurs // Une
-    fonctionnzlité pour retirer un joueurs // Un reset pour le score de chaque
-    joueur // Bouton : Game Finished -> Des que cliquer ajouter un listener
-    event et afficher une nouvelle page avec le 1 2 ème 3 ème
   </body>
 </html>
