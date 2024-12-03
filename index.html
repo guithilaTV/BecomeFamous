@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Become Famous - Score Tracker</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: #ffffff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      .container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+      }
+      h2 {
+        margin-top: 0;
+        color: #f9f9f9;
+        font-weight: 300;
+      }
+      .player-list {
+        margin: 20px 0;
+      }
+      .player {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+      .buttons {
+        display: flex;
+        gap: 5px;
+      }
+      button {
+        padding: 8px 15px;
+        background-color: #ffffff;
+        color: #2575fc;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #6a11cb;
+        color: #ffffff;
+      }
+      .add-player {
+        margin-bottom: 20px;
+      }
+      input {
+        padding: 10px;
+        width: 60%;
+        margin-right: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1em;
+      }
+      input:focus {
+        outline: none;
+        box-shadow: 0 0 5px #ffffff;
+      }
+      .score {
+        font-weight: bold;
+        font-size: 1.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Become Famous</h1>
+      <h2>Track your journey to fame!</h2>
+      <div class="add-player">
+        <input type="text" id="playerName" placeholder="Enter player name" />
+        <button onclick="addPlayer()">Add Player</button>
+      </div>
+      <div class="player-list" id="playerList">
+        <!-- Players will be added here dynamically -->
+      </div>
+    </div>
+    <script>
+      const playerList = document.getElementById("playerList");
+
+      function addPlayer() {
+        const playerName = document.getElementById("playerName").value;
+        if (playerName.trim() === "") {
+          alert("Player name cannot be empty!");
+          return;
+        }
+
+        const playerDiv = document.createElement("div");
+        playerDiv.classList.add("player");
+
+        playerDiv.innerHTML = `
+        <span>${playerName}</span>
+        <div class="buttons">
+          <button onclick="updateScore(this, 20)">+20</button>
+          <button onclick="updateScore(this, 50)">+50</button>
+          <button onclick="updateScore(this, 100)">+100</button>
+          <button onclick="updateScore(this, -10)">-10</button>
+          <button onclick="updateScore(this, -30)">-30</button>
+          <button onclick="updateScore(this, -50)">-50</button>
+        </div>
+        <span class="score">100</span>
+      `;
+
+        playerList.appendChild(playerDiv);
+        document.getElementById("playerName").value = "";
+      }
+
+      function updateScore(button, points) {
+        const playerDiv = button.parentElement.parentElement;
+        const scoreSpan = playerDiv.querySelector(".score");
+        let currentScore = parseInt(scoreSpan.textContent, 10);
+        currentScore += points;
+        scoreSpan.textContent = currentScore;
+      }
+    </script>
+    // ne pas laisser les joueurs en dessous de 0 visiteurs // Une
+    fonctionnzlité pour retirer un joueurs // Un reset pour le score de chaque
+    joueur // Bouton : Game Finished -> Des que cliquer ajouter un listener
+    event et afficher une nouvelle page avec le 1 2 ème 3 ème
+  </body>
+</html>
