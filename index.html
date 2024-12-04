@@ -35,7 +35,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px; /* Ajout d'un espace entre les éléments */
+        gap: 10px;
       }
       input {
         padding: 10px;
@@ -75,12 +75,12 @@
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
         margin-bottom: 15px;
-        gap: 10px; /* Espacement entre les éléments */
+        gap: 10px;
       }
       .player span {
         flex: 1 1 100px;
         text-align: center;
-        margin-bottom: 5px; /* Réduit l'espace entre le nom et les boutons */
+        margin-bottom: 5px;
       }
       .buttons {
         display: flex;
@@ -135,8 +135,12 @@
         max-width: 90%;
         width: 400px;
       }
+      .popup-content h3 {
+        color: #000; /* Texte Game Rankings en noir */
+        margin-bottom: 20px; /* Espacement avec le reste */
+      }
       .close-popup {
-        margin-top: 10px;
+        margin-top: 20px;
         background: #2575fc;
         color: #fff;
         border: none;
@@ -248,7 +252,7 @@
           })
           .sort((a, b) => b.score - a.score);
 
-        popupContent.innerHTML = "<h2>Game Rankings</h2>";
+        popupContent.innerHTML = "<h3>Game Rankings</h3>";
         rankings.forEach((player, index) => {
           popupContent.innerHTML += `<p>${index + 1}. ${player.name} - ${
             player.score
