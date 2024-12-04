@@ -30,12 +30,6 @@
         color: #f9f9f9;
         font-weight: 300;
       }
-
-      h3 {
-        margin-top: 0;
-        color: #000;
-        font-weight: 300;
-      }
       .player-list {
         margin: 20px 0;
       }
@@ -48,18 +42,28 @@
         background: rgba(255, 255, 255, 0.2);
         border-radius: 10px;
         margin-bottom: 15px;
+        gap: 10px; /* Espace entre les éléments */
       }
-      .player span,
-      .player .score {
+      .player span {
         flex: 1 1 100px;
         text-align: center;
-        margin: 5px 0;
       }
       .buttons {
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
         justify-content: center;
+      }
+      .player .buttons {
+        flex: 2; /* Les boutons prennent plus de place */
+        text-align: center;
+      }
+      .player .score {
+        flex: 1; /* Score garde une taille constante */
+        text-align: center;
+      }
+      .player button:last-child {
+        flex: 0; /* Empêche le bouton delete de prendre trop d'espace */
       }
       button {
         padding: 8px 15px;
@@ -138,24 +142,16 @@
       }
       /* Responsive Design */
       @media (max-width: 600px) {
-        h1 {
-          font-size: 1.8em;
-        }
         .player {
-          flex-wrap: wrap;
-          padding: 10px 5px;
+          flex-direction: column; /* Réorganise verticalement sur petits écrans */
+          align-items: center;
         }
-        button {
-          padding: 5px 10px;
-          font-size: 0.9em;
+        .buttons {
+          justify-content: center; /* Centre les boutons */
+          width: 100%; /* S'assure qu'ils prennent toute la largeur */
         }
-        input {
-          width: 100%;
-          margin-bottom: 10px;
-        }
-        .final-btn {
-          font-size: 1em;
-          padding: 8px 15px;
+        .player button:last-child {
+          margin-top: 10px; /* Place le bouton delete en bas */
         }
       }
     </style>
@@ -249,7 +245,7 @@
           })
           .sort((a, b) => b.score - a.score);
 
-        popupContent.innerHTML = "<h3>Game Rankings</h3>";
+        popupContent.innerHTML = "<h2>Game Rankings</h2>";
         rankings.forEach((player, index) => {
           popupContent.innerHTML += `<p>${index + 1}. ${player.name} - ${
             player.score
